@@ -1,6 +1,8 @@
 package com.apside.prono;
 
+import com.apside.prono.model.ActorEntity;
 import com.apside.prono.model.PlayerEntity;
+import com.apside.prono.service.ActorService;
 import com.apside.prono.service.PlayerService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -18,10 +20,10 @@ public class Application {
     }
 
     @Bean
-    CommandLineRunner init(PlayerService playerService) {
-        if(playerService.getAll().size() ==0) {
-            return args -> {
-                for (int i = 0; i < 5; i++) {
+    CommandLineRunner init(PlayerService playerService, ActorService actorService) {
+        return args -> {
+            if (playerService.getAll().size() == 0) {
+                for (int i = 0; i < 20; i++) {
                     PlayerEntity player = new PlayerEntity();
                     player.setSubscribeDate(new Date());
                     player.setMail("toto" + i + "@domaine.fr");
@@ -29,9 +31,16 @@ public class Application {
                     player.setFirstName("dupont" + i);
                     playerService.createPlayer(player);
                 }
-            };
-        }
-        return null;
+            }
+            if (actorService.getAll().size() == 0) {
+                String[] countryName = {"France", "Italie", "Corée du Sud", "Portugal", "Angleterre", "Ireland", "Island", "Espagne", "Grece", "Norvege", "Pays-Bas"};
+                for (String s : countryName) {
+                    ActorEntity actorEntity = new ActorEntity();
+                    actorEntity.setLabel(s);
+                    actorService.createActor(actorEntity);
+                }
+            }
+        };
     }
 
     public WebMvcConfigurer corsConfigurer() {
@@ -39,6 +48,7 @@ public class Application {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/pronos/players").allowedOrigins("http://localhost:4200");
+                registry.addMapping("/pronos/actors").allowedOrigins("http://localhost:4200");
             }
         };
     }

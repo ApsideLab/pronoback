@@ -8,6 +8,8 @@ import com.apside.prono.service.ActorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +36,7 @@ public class ActorController {
      *
      * @return the Response with status 200 (OK) and the list of actors in body
      */
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/actors")
     public List<ActorEntity> getAllActors() {
         log.debug(bundle.getString("get_all_actors"));
@@ -46,6 +49,7 @@ public class ActorController {
      * @param id the id of the actor to retrieve
      * @return the Response with status 200 (OK) and with body the actor, or with status 404 (Not Found)
      */
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/actors/{id}")
     public ResponseEntity<?> getActor(@PathVariable("id") long id) {
         String message = bundle.getString("get_actor");
@@ -62,6 +66,7 @@ public class ActorController {
      * @return the Response with status 201 (Created) and with body the new actor, or with status 400 (Bad Request) if the actor has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
+    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/actors")
     public ResponseEntity<?> createActor(@Valid @RequestBody Actor actor) throws URISyntaxException {
         String message = bundle.getString("post_actor");
@@ -79,6 +84,7 @@ public class ActorController {
      * @return the Response with status 201 (Update) and with body the new actor, or with status 400 (Bad Request) if the actor has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
+    @CrossOrigin(origins = "http://localhost:4200")
     @PutMapping("/actors")
     public ResponseEntity<?> updateActor(@Valid @RequestBody Actor actor) throws URISyntaxException {
         String message = bundle.getString("put_actor");
@@ -96,6 +102,7 @@ public class ActorController {
      * @param id the actor to delete
      * @return the Response with status 201 (deleted) and with body the new actor, or with status 400 (Bad Request) if the actor has already an ID
      */
+    @CrossOrigin(origins = "http://localhost:4200")
     @DeleteMapping("/actors/{id}")
     public ResponseEntity<?> deleteActor(@PathVariable("id") long id) {
         ActorEntity actorEntity = actorService.getActor(id);
