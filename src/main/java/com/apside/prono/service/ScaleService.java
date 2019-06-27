@@ -57,10 +57,11 @@ public class ScaleService {
                 String message = MessageFormat.format(pattern, scaleEntity.getId());
                 throw new EntityNotFoundException(message);
             }
+
             scaleRepository.findById(scaleEntity.getId()).get().setDateDebutValidite(scaleEntity.getDateDebutValidite());
             scaleRepository.findById(scaleEntity.getId()).get().setDateFinValidite(scaleEntity.getDateFinValidite());
             scaleRepository.findById(scaleEntity.getId()).get().setLabel(scaleEntity.getLabel());
-            scaleRepository.findById(scaleEntity.getId()).get().setPtsBonRésultat(scaleEntity.getPtsBonRésultat());
+            scaleRepository.findById(scaleEntity.getId()).get().setPtsBonResultat(scaleEntity.getPtsBonResultat());
             scaleRepository.findById(scaleEntity.getId()).get().setPtsBonusDeuxScoresExacts(scaleEntity.getPtsBonusDeuxScoresExacts());
             scaleRepository.findById(scaleEntity.getId()).get().setPtsBonusEcartButs(scaleEntity.getPtsBonusEcartButs());
             scaleRepository.findById(scaleEntity.getId()).get().setPtsBonusUnScoreExactResultatKO(scaleEntity.getPtsBonusUnScoreExactResultatKO());

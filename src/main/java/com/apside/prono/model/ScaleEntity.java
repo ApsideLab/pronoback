@@ -1,6 +1,7 @@
 package com.apside.prono.model;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -18,7 +19,7 @@ public class ScaleEntity {
     @Column(unique = true)
     private String label;
     @NotNull
-    private long ptsBonRésultat;
+    private long ptsBonResultat;
     @NotNull
     private long ptsBonusEcartButs;
     @NotNull
@@ -48,12 +49,12 @@ public class ScaleEntity {
         this.label = label;
     }
 
-    public long getPtsBonRésultat() {
-        return ptsBonRésultat;
+    public long getPtsBonResultat() {
+        return ptsBonResultat;
     }
 
-    public void setPtsBonRésultat(long ptsBonRésultat) {
-        this.ptsBonRésultat = ptsBonRésultat;
+    public void setPtsBonResultat(long ptsBonResultat) {
+        this.ptsBonResultat = ptsBonResultat;
     }
 
     public long getPtsBonusEcartButs() {

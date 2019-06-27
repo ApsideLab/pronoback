@@ -6,7 +6,7 @@ public class Scale {
     private String id;
     private String label;
     private Date dateDebutValidite;
-    private String ptsBonRésultat;
+    private String ptsBonResultat;
     private String ptsBonusEcartButs;
     private String ptsBonusDeuxScoresExacts;
     private String ptsBonusUnScoreExactResultatOK;
@@ -29,12 +29,12 @@ public class Scale {
         this.label = label;
     }
 
-    public String getPtsBonRésultat() {
-        return ptsBonRésultat;
+    public String getPtsBonResultat() {
+        return ptsBonResultat;
     }
 
-    public void setPtsBonRésultat(String ptsBonRésultat) {
-        this.ptsBonRésultat = ptsBonRésultat;
+    public void setPtsBonResultat(String ptsBonResultat) {
+        this.ptsBonResultat = ptsBonResultat;
     }
 
     public String getPtsBonusEcartButs() {

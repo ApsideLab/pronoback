@@ -88,7 +88,7 @@ public class ScalesTest {
         scaleEntity.setPtsBonusUnScoreExactResultatKO(2);
         scaleEntity.setPtsBonusEcartButs(3);
         scaleEntity.setPtsBonusDeuxScoresExacts(4);
-        scaleEntity.setPtsBonRésultat(5);
+        scaleEntity.setPtsBonResultat(5);
         scaleEntity.setDateFinValidite(new Date());
         scaleEntity.setDateDebutValidite(new Date());
         when(scaleRepository.save(scaleEntity)).thenReturn(scaleSave);

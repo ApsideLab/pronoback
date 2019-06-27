@@ -2,8 +2,10 @@ package com.apside.prono;
 
 import com.apside.prono.model.ActorEntity;
 import com.apside.prono.model.PlayerEntity;
+import com.apside.prono.model.ScaleEntity;
 import com.apside.prono.service.ActorService;
 import com.apside.prono.service.PlayerService;
+import com.apside.prono.service.ScaleService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,7 +22,7 @@ public class Application {
     }
 
     @Bean
-    CommandLineRunner init(PlayerService playerService, ActorService actorService) {
+    CommandLineRunner init(PlayerService playerService, ActorService actorService, ScaleService scaleService) {
         return args -> {
             if (playerService.getAll().size() == 0) {
                 for (int i = 0; i < 20; i++) {
@@ -40,6 +42,20 @@ public class Application {
                     actorService.createActor(actorEntity);
                 }
             }
+            if (scaleService.getAll().size() == 0) {
+                for (int i = 0; i < 20; i++) {
+                    ScaleEntity scaleEntity = new ScaleEntity();
+                    scaleEntity.setLabel("toto"+i);
+                    scaleEntity.setDateDebutValidite(new Date());
+                    scaleEntity.setDateFinValidite(new Date());
+                    scaleEntity.setPtsBonResultat(1);
+                    scaleEntity.setPtsBonusEcartButs(2);
+                    scaleEntity.setPtsBonusDeuxScoresExacts(3);
+                    scaleEntity.setPtsBonusUnScoreExactResultatOK(4);
+                    scaleEntity.setPtsBonusUnScoreExactResultatKO(5);
+                    scaleService.createScale(scaleEntity);
+                }
+            }
         };
     }
 
@@ -49,6 +65,7 @@ public class Application {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/pronos/players").allowedOrigins("http://localhost:4200");
                 registry.addMapping("/pronos/actors").allowedOrigins("http://localhost:4200");
+                registry.addMapping("/pronos/scales").allowedOrigins("http://localhost:4200");
             }
         };
     }

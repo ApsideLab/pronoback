@@ -38,6 +38,7 @@ public class ScaleController {
      * @return the ResponseEntity with status 200 (OK) and the list of scales in body
      */
     @GetMapping("/scales")
+    @CrossOrigin(origins = "http://localhost:4200")
     public List<ScaleEntity> getAllScales() {
         log.debug(bundle.getString("get_all_scales"));
         return scaleService.getAll();
@@ -50,6 +51,7 @@ public class ScaleController {
      * @return the ResponseEntity with status 200 (OK) and with body the scale, or with status 404 (Not Found)
      */
     @GetMapping("/scales/{id}")
+    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<?> getScale(@PathVariable("id") long id) {
         String message = bundle.getString("get_scale");
         log.debug(message, id);
@@ -65,6 +67,7 @@ public class ScaleController {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/scales")
+    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<?> createScale(@Valid @RequestBody Scale scale) throws URISyntaxException {
         String message = bundle.getString("post_scale");
         log.debug(message, scale);
@@ -81,9 +84,11 @@ public class ScaleController {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/scales")
+    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<?> updateScale(@Valid @RequestBody Scale scale) throws URISyntaxException {
         String message = bundle.getString("put_scale");
         log.debug(message, scale);
+
         ScaleEntity scaleEntity = ScaleEntityMapper.INSTANCE.mapScaleEntity(scale);
         scaleEntity = scaleService.update(scaleEntity);
         return new ResponseEntity<>(ScaleMapper.INSTANCE.mapScale(scaleEntity), HttpStatus.ACCEPTED);
@@ -97,6 +102,7 @@ public class ScaleController {
      * @return the ResponseEntity with status 201 (deleted) and with body the new scale, or with status 400 (Bad Request) if the scale has already an ID
      */
     @DeleteMapping("/scales/{id}")
+    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<?> deleteScale(@PathVariable("id") long id) {
         ScaleEntity scaleEntity = scaleService.getScale(id);
         String message = bundle.getString("delete_scale");

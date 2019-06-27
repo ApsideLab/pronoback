@@ -43,7 +43,7 @@ public class ScalesIntegrationTest {
         scaleEntity.setPtsBonusUnScoreExactResultatKO(2);
         scaleEntity.setPtsBonusEcartButs(3);
         scaleEntity.setPtsBonusDeuxScoresExacts(4);
-        scaleEntity.setPtsBonRésultat(5);
+        scaleEntity.setPtsBonResultat(5);
         scaleEntity.setDateFinValidite(new Date());
         scaleEntity.setDateDebutValidite(new Date());
 
@@ -109,7 +109,7 @@ public class ScalesIntegrationTest {
             scaleEntity.setPtsBonusUnScoreExactResultatKO(2);
             scaleEntity.setPtsBonusEcartButs(3);
             scaleEntity.setPtsBonusDeuxScoresExacts(4);
-            scaleEntity.setPtsBonRésultat(5);
+            scaleEntity.setPtsBonResultat(5);
             scaleEntity.setDateFinValidite(new Date());
             scaleEntity.setDateDebutValidite(new Date());
 
