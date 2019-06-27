@@ -33,6 +33,7 @@ public class EvenementController {
      */
     //TODO : Changer EvenementEntity en Evenement
     @GetMapping("/evenements")
+    @CrossOrigin(origins = "http://localhost:4200")
     public List<EvenementEntity> getAllEvenements() {
         log.debug("REST requete pour récupérer tous les événements");
         return evenementService.getAll();
@@ -45,6 +46,7 @@ public class EvenementController {
      * @return the ResponseEntity with status 200 (OK) and with body the evenement, or with status 404 (Not Found)
      */
     @GetMapping("/evenements/{id}")
+    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<Evenement> getEvenement(@PathVariable Long id) {
         log.debug("REST request to get EvenementEntity : {}", id);
         EvenementEntity evenementEntity = evenementService.getEvenement(id);
@@ -59,6 +61,7 @@ public class EvenementController {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/evenements")
+    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<Evenement> createEvenement(@Valid @RequestBody Evenement evenement){
         log.debug("REST request to save Evenement : {}", evenement);
         EvenementEntity evenementEntity = EvenementEntityMapper.INSTANCE.mapEvenementEntity(evenement);
