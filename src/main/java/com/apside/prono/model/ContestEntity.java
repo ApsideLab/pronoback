@@ -7,7 +7,6 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "contest")
-@Data
 public class ContestEntity {
 
     @Id
@@ -17,6 +16,14 @@ public class ContestEntity {
     @NotNull
     @Column(name = "label", nullable = false, unique = true)
     private String label;
+
+    @NotNull
+    @Column(name = "startDate", nullable = false)
+    private String startDate;
+
+    @NotNull
+    @Column(name = "endDate", nullable = false)
+    private String endDate;
 
     public Long getId() {
         return id;
@@ -33,4 +40,13 @@ public class ContestEntity {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public String getStartDate() { return startDate; }
+
+    public void setStartDate(String startDate) { this.startDate = startDate; }
+
+    public String getEndDate() { return endDate; }
+
+    public void setEndDate(String endDate) { this.endDate = endDate; }
+
 }

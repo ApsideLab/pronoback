@@ -13,5 +13,7 @@ public interface ContestEntityMapper {
 
     @Mapping(target = "id",  source = "id")
     @Mapping(target = "label", source = "label")
+    @Mapping(target = "startDate", source="startDate")
+    @Mapping(target = "endDate", source="endDate")
     ContestEntity mapContestEntity(Contest contest);
 }
