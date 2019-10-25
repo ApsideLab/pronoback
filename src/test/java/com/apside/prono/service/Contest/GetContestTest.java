@@ -1,9 +1,10 @@
-package com.apside.prono.service;
+package com.apside.prono.service.Contest;//package com.apside.prono.service.Contest;
 
 import com.apside.prono.errors.common.EntityNotFoundException;
-import com.apside.prono.errors.contest.BadRequestCreateContestException;
+import com.apside.prono.mapper.contest.ContestEntityMapper;
 import com.apside.prono.model.ContestEntity;
 import com.apside.prono.repository.ContestRepository;
+import com.apside.prono.service.ContestService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +21,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-public class ContestTest {
+public class GetContestTest {
 
     private static final String LIBELLE_CONTEST1 = "contest 1";
     private static final String STARTDATE_CONTEST1 = "05/10/2019";
@@ -69,7 +70,7 @@ public class ContestTest {
         contestEntity.get().setEndDate(ENDDATE_CONTEST1);
 
         when(contestRepository.findById(1L)).thenReturn(contestEntity);
-        ContestEntity result = contestService.getContest(1L);
+        ContestEntity result = ContestEntityMapper.INSTANCE.mapContestEntity(contestService.getContest(1L));
         assertEquals(Long.valueOf(1L), result.getId());
         assertEquals(LIBELLE_CONTEST1, result.getLabel());
         assertEquals(STARTDATE_CONTEST1, result.getStartDate());
@@ -79,77 +80,6 @@ public class ContestTest {
     @Test(expected = EntityNotFoundException.class)
     public void testEntityNotFoundGetOneContest() throws Exception {
         contestService.getContest(1L);
-    }
-
-    @Test(expected = BadRequestCreateContestException.class)
-    public void testBadRequestCreateContest() throws Exception {
-        ContestEntity contestEntity = new ContestEntity();
-        contestEntity.setId(1L);
-        contestService.createContest(contestEntity);
-    }
-
-    @Test
-    public void saveContest() {
-        ContestEntity contestEntity = new ContestEntity();
-        contestEntity.setLabel(LIBELLE_CONTEST1);
-        contestEntity.setStartDate(STARTDATE_CONTEST1);
-        contestEntity.setEndDate(ENDDATE_CONTEST1);
-        ContestEntity contestSave = new ContestEntity();
-        contestSave.setId(1L);
-        contestSave.setLabel(LIBELLE_CONTEST1);
-        contestSave.setStartDate(STARTDATE_CONTEST1);
-        contestSave.setEndDate(ENDDATE_CONTEST1);
-        when(contestRepository.save(contestEntity)).thenReturn(contestSave);
-        ContestEntity contest = contestService.createContest(contestEntity);
-        assertEquals(Long.valueOf(1L), contest.getId());
-        assertEquals(LIBELLE_CONTEST1, contest.getLabel());
-        assertEquals(STARTDATE_CONTEST1, contest.getStartDate());
-        assertEquals(ENDDATE_CONTEST1, contest.getEndDate());
-    }
-
-    @Test
-    public void updateContest() {
-        ContestEntity contestEntity = new ContestEntity();
-        contestEntity.setLabel(LIBELLE_CONTEST1);
-        contestEntity.setStartDate(STARTDATE_CONTEST1);
-        contestEntity.setEndDate(ENDDATE_CONTEST1);
-        ContestEntity contestUpdate = new ContestEntity();
-        contestUpdate.setId(1L);
-        contestUpdate.setLabel(LIBELLE_CONTEST2);
-        contestUpdate.setStartDate(STARTDATE_CONTEST2);
-        contestUpdate.setEndDate(ENDDATE_CONTEST2);
-        when(contestRepository.findById(1L)).thenReturn(Optional.of(contestUpdate));
-        ContestEntity contest = contestService.update(contestUpdate);
-        assertEquals(Long.valueOf(1L), contest.getId());
-        assertEquals(LIBELLE_CONTEST2, contest.getLabel());
-        assertEquals(STARTDATE_CONTEST2, contest.getStartDate());
-        assertEquals(ENDDATE_CONTEST2, contest.getEndDate());
-    }
-
-    @Test(expected = EntityNotFoundException.class)
-    public void testEntityNotFoundUpdateContest() throws Exception {
-        ContestEntity contestEntity = new ContestEntity();
-        contestEntity.setId(1L);
-        contestEntity.setLabel(LIBELLE_CONTEST2);
-        contestEntity.setStartDate(STARTDATE_CONTEST2);
-        contestEntity.setEndDate(ENDDATE_CONTEST2);
-        contestService.update(contestEntity);
-    }
-
-    @Test(expected = EntityNotFoundException.class)
-    public void testBadRequestDeleteContest() throws Exception {
-        contestService.delete(-1L);
-    }
-
-    @Test
-    public void testDeleteContest() {
-        ContestEntity contestEntity = new ContestEntity();
-        contestEntity.setId(1L);
-        contestEntity.setLabel(LIBELLE_CONTEST1);
-        contestEntity.setStartDate(STARTDATE_CONTEST1);
-        contestEntity.setEndDate(ENDDATE_CONTEST1);
-        when(contestRepository.findById(1L)).thenReturn(Optional.of(contestEntity));
-        contestService.delete(1L);
     }
 
     @Test
@@ -174,15 +104,5 @@ public class ContestTest {
         contestEntity.setEndDate(ENDDATE_CONTEST1);
 
         assertEquals(null, contestService.find(LIBELLE_CONTEST1));
-    }
-
-    @Test(expected = EntityNotFoundException.class)
-    public void testEntityNotFoundUpdateActorNull() throws Exception {
-        contestService.update(null);
-    }
-
-    @Test(expected = BadRequestCreateContestException.class)
-    public void testEntityNotFoundCreateActorNull() throws Exception {
-        contestService.createContest(null);
     }
 }
