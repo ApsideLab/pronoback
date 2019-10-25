@@ -2,7 +2,10 @@ package com.apside.prono.service;
 
 import com.apside.prono.errors.common.EntityNotFoundException;
 import com.apside.prono.errors.contest.BadRequestCreateContestException;
+import com.apside.prono.mapper.contest.ContestEntityMapper;
+import com.apside.prono.mapper.contest.ContestMapper;
 import com.apside.prono.model.ContestEntity;
+import com.apside.prono.modelapi.Contest;
 import com.apside.prono.repository.ContestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -25,7 +28,9 @@ public class ContestService {
     private ResourceBundle bundle = ResourceBundle.getBundle("messagesServicesError");
 
     @Transactional
-    public ContestEntity createContest(ContestEntity contestEntity) {
+    public Contest createContest(Contest contest) {
+        ContestEntity contestEntity = ContestEntityMapper.INSTANCE.mapContestEntity(contest);
+
         if (contestEntity != null) {
             if (contestEntity.getId() != null) {
                 throw new BadRequestCreateContestException(bundle.getString("new_contest_create"));
@@ -33,19 +38,21 @@ public class ContestService {
             if (contestRepository.findByLabel(contestEntity.getLabel()) != null) {
                 throw new BadRequestCreateContestException(bundle.getString("new_contest_exists"));
             }
-            return contestRepository.save(contestEntity);
+            contestEntity = contestRepository.save(contestEntity);
+        } else {
+            throw new BadRequestCreateContestException(bundle.getString("new_contest_empty"));
         }
-        throw new BadRequestCreateContestException(bundle.getString("new_contest_empty"));
+        return ContestMapper.INSTANCE.mapContest(contestEntity);
     }
 
-    public ContestEntity getContest(long id) {
+    public Contest getContest(long id) {
         Optional<ContestEntity> contestEntity = contestRepository.findById(id);
         if (!contestEntity.isPresent()) {
             String pattern = bundle.getString("contest_wrong_id");
             String message = MessageFormat.format(pattern, id);
             throw new EntityNotFoundException(message);
         }
-        return contestEntity.get();
+        return ContestMapper.INSTANCE.mapContest(contestEntity.get());
     }
 
     @Transactional

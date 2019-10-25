@@ -54,8 +54,8 @@ public class ContestController {
         String message = bundle.getString("get_contest");
         log.debug(message, id);
 
-        ContestEntity contestEntity = contestService.getContest(id);
-        return ResponseEntity.ok().body(ContestMapper.INSTANCE.mapContest(contestEntity));
+        Contest contest = contestService.getContest(id);
+        return ResponseEntity.ok().body(contest);
     }
 
     /**
@@ -67,13 +67,12 @@ public class ContestController {
      */
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/contests")
-    public ResponseEntity<?> createContest(@Valid @RequestBody Contest contest) throws URISyntaxException {
+    public ResponseEntity<?> createContest(@Valid @RequestBody Contest contest)  {
         String message = bundle.getString("post_contest");
         log.debug(message, contest);
 
-        ContestEntity contestEntity = ContestEntityMapper.INSTANCE.mapContestEntity(contest);
-        contestEntity = contestService.createContest(contestEntity);
-        return new ResponseEntity<>(ContestMapper.INSTANCE.mapContest(contestEntity), HttpStatus.CREATED);
+        Contest contestSave = contestService.createContest(contest);
+        return new ResponseEntity<>(contestSave, HttpStatus.CREATED);
     }
 
     /**
@@ -103,12 +102,14 @@ public class ContestController {
     @CrossOrigin(origins = "http://localhost:4200")
     @DeleteMapping("/contest/{id}")
     public ResponseEntity<?> deleteContest(@PathVariable("id") long id) {
-        ContestEntity contestEntity = contestService.getContest(id);
-
-        String message = bundle.getString("delete_contest");
-        log.debug(message, id);
-
-        contestService.delete(id);
-        return new ResponseEntity<>(ContestMapper.INSTANCE.mapContest(contestEntity), HttpStatus.ACCEPTED);
+        return null;
+        // TODO : Tout faire dans le service, récupérer la compétition et la supprimer dans le service
+//        Contest contestEntity = contestService.getContest(id);
+//
+//        String message = bundle.getString("delete_contest");
+//        log.debug(message, id);
+//
+//        contestService.delete(id);
+//        return new ResponseEntity<>(contest), HttpStatus.ACCEPTED);
     }
 }
