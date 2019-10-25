@@ -1,6 +1,5 @@
 package com.apside.prono.controller;
 
-
 import com.apside.prono.mapper.contest.ContestEntityMapper;
 import com.apside.prono.mapper.contest.ContestMapper;
 import com.apside.prono.model.ContestEntity;
@@ -25,18 +24,19 @@ import java.util.ResourceBundle;
 @RequestMapping(value = "/")
 public class ContestController {
     private final Logger log = LoggerFactory.getLogger(ContestController.class);
-
     @Autowired
     private ContestService contestService;
     @Autowired
     private Environment env;
     private ResourceBundle bundle = ResourceBundle.getBundle("messagesControllerError");
+
     /**
      * GET  /contest : get all contest.
      *
      * @return the ResponseEntity with status 200 (OK) and the list of contest in body
      */
-    @GetMapping("/contest")
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping("/contests")
     public List<ContestEntity> getAllContests() {
         log.debug(bundle.getString("get_all_contests"));
         return contestService.getAll();
@@ -48,13 +48,14 @@ public class ContestController {
      * @param id the id of the contest to retrieve
      * @return the ResponseEntity with status 200 (OK) and with body the contest, or with status 404 (Not Found)
      */
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/contest/{id}")
     public ResponseEntity<?> getContest(@PathVariable("id") long id) {
         String message = bundle.getString("get_contest");
         log.debug(message, id);
 
-        ContestEntity contestEntity = contestService.getContest(id);
-        return ResponseEntity.ok().body(ContestMapper.INSTANCE.mapContest(contestEntity));
+        Contest contest = contestService.getContest(id);
+        return ResponseEntity.ok().body(contest);
     }
 
     /**
@@ -64,13 +65,14 @@ public class ContestController {
      * @return the ResponseEntity with status 201 (Created) and with body the new contest, or with status 400 (Bad Request) if the contest has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @PostMapping("/contest")
-    public ResponseEntity<?> createContest(@Valid @RequestBody Contest contest) throws URISyntaxException {
+    @CrossOrigin(origins = "http://localhost:4200")
+    @PostMapping("/contests")
+    public ResponseEntity<?> createContest(@Valid @RequestBody Contest contest)  {
         String message = bundle.getString("post_contest");
         log.debug(message, contest);
-        ContestEntity contestEntity = ContestEntityMapper.INSTANCE.mapContestEntity(contest);
-        contestEntity = contestService.createContest(contestEntity);
-        return new ResponseEntity<>(ContestMapper.INSTANCE.mapContest(contestEntity), HttpStatus.CREATED);
+
+        Contest contestSave = contestService.createContest(contest);
+        return new ResponseEntity<>(contestSave, HttpStatus.CREATED);
     }
 
     /**
@@ -80,6 +82,7 @@ public class ContestController {
      * @return the ResponseEntity with status 201 (Update) and with body the new contest, or with status 400 (Bad Request) if the contest has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
+    @CrossOrigin(origins = "http://localhost:4200")
     @PutMapping("/contest")
     public ResponseEntity<?> updateContest(@Valid @RequestBody Contest contest) throws URISyntaxException {
         String message = bundle.getString("put_contest");
@@ -96,14 +99,17 @@ public class ContestController {
      * @param id the contest to delete
      * @return the ResponseEntity with status 201 (deleted) and with body the new contest, or with status 400 (Bad Request) if the contest has already an ID
      */
+    @CrossOrigin(origins = "http://localhost:4200")
     @DeleteMapping("/contest/{id}")
     public ResponseEntity<?> deleteContest(@PathVariable("id") long id) {
-        ContestEntity contestEntity = contestService.getContest(id);
-
-        String message = bundle.getString("delete_contest");
-        log.debug(message, id);
-
-        contestService.delete(id);
-        return new ResponseEntity<>(ContestMapper.INSTANCE.mapContest(contestEntity), HttpStatus.ACCEPTED);
+        return null;
+        // TODO : Tout faire dans le service, récupérer la compétition et la supprimer dans le service
+//        Contest contestEntity = contestService.getContest(id);
+//
+//        String message = bundle.getString("delete_contest");
+//        log.debug(message, id);
+//
+//        contestService.delete(id);
+//        return new ResponseEntity<>(contest), HttpStatus.ACCEPTED);
     }
 }
