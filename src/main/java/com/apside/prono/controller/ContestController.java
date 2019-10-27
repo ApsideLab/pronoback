@@ -20,6 +20,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.ResourceBundle;
 
+@CrossOrigin(origins = "${corsurl}")
 @RestController
 @RequestMapping(value = "/")
 public class ContestController {
@@ -35,7 +36,6 @@ public class ContestController {
      *
      * @return the ResponseEntity with status 200 (OK) and the list of contest in body
      */
-    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/contests")
     public List<ContestEntity> getAllContests() {
         log.debug(bundle.getString("get_all_contests"));
@@ -48,7 +48,6 @@ public class ContestController {
      * @param id the id of the contest to retrieve
      * @return the ResponseEntity with status 200 (OK) and with body the contest, or with status 404 (Not Found)
      */
-    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/contest/{id}")
     public ResponseEntity<?> getContest(@PathVariable("id") long id) {
         String message = bundle.getString("get_contest");
@@ -65,7 +64,6 @@ public class ContestController {
      * @return the ResponseEntity with status 201 (Created) and with body the new contest, or with status 400 (Bad Request) if the contest has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/contests")
     public ResponseEntity<?> createContest(@Valid @RequestBody Contest contest)  {
         String message = bundle.getString("post_contest");
@@ -82,7 +80,6 @@ public class ContestController {
      * @return the ResponseEntity with status 201 (Update) and with body the new contest, or with status 400 (Bad Request) if the contest has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @CrossOrigin(origins = "http://localhost:4200")
     @PutMapping("/contest")
     public ResponseEntity<?> updateContest(@Valid @RequestBody Contest contest) throws URISyntaxException {
         String message = bundle.getString("put_contest");
@@ -99,7 +96,6 @@ public class ContestController {
      * @param id the contest to delete
      * @return the ResponseEntity with status 201 (deleted) and with body the new contest, or with status 400 (Bad Request) if the contest has already an ID
      */
-    @CrossOrigin(origins = "http://localhost:4200")
     @DeleteMapping("/contest/{id}")
     public ResponseEntity<?> deleteContest(@PathVariable("id") long id) {
         return null;
