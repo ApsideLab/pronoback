@@ -2,6 +2,7 @@ package com.apside.prono.service;
 
 import com.apside.prono.errors.common.EntityNotFoundException;
 import com.apside.prono.errors.contest.BadRequestCreateContestException;
+import com.apside.prono.errors.contest.BadRequestUpdateContestException;
 import com.apside.prono.mapper.contest.ContestEntityMapper;
 import com.apside.prono.mapper.contest.ContestMapper;
 import com.apside.prono.model.ContestEntity;
@@ -63,13 +64,28 @@ public class ContestService {
     @Transactional
     public ContestEntity update(ContestEntity contestEntity) {
         if (contestEntity != null) {
-            Optional<ContestEntity> player = contestRepository.findById(contestEntity.getId());
-            if (!player.isPresent()) {
+            if (contestEntity.getId() == null) {
                 String pattern = bundle.getString("contest_wrong_id");
                 String message = MessageFormat.format(pattern, contestEntity.getId());
                 throw new EntityNotFoundException(message);
             }
+
+            Optional<ContestEntity> contest = contestRepository.findById(contestEntity.getId());
+
+            if (!contest.isPresent()) {
+
+                String pattern = bundle.getString("contest_wrong_id");
+                String message = MessageFormat.format(pattern, contestEntity.getId());
+                throw new EntityNotFoundException(message);
+            }
+            if (contest.isPresent() && contestRepository.findByLabel(contestEntity.getLabel()) != null && contestEntity.getId() != contestRepository.findByLabel(contestEntity.getLabel()).getId()) {
+                String pattern = bundle.getString("update_contest_exists");
+                String message = MessageFormat.format(pattern, contestEntity.getId());
+                throw new BadRequestUpdateContestException(message);
+            }
             contestRepository.findById(contestEntity.getId()).get().setLabel(contestEntity.getLabel());
+            contestRepository.findById(contestEntity.getId()).get().setStartDate(contestEntity.getStartDate());
+            contestRepository.findById(contestEntity.getId()).get().setEndDate(contestEntity.getEndDate());
             ContestEntity contestEntity1 = contestRepository.findById(contestEntity.getId()).get();
 
             contestRepository.flush();

@@ -83,7 +83,7 @@ public class ContestController {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @CrossOrigin(origins = "http://localhost:4200")
-    @PutMapping("/contest")
+    @PutMapping("/contests")
     public ResponseEntity<?> updateContest(@Valid @RequestBody Contest contest) throws URISyntaxException {
         String message = bundle.getString("put_contest");
         log.debug(message, contest);
