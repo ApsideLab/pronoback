@@ -2,6 +2,7 @@ package com.apside.prono.service;
 
 import com.apside.prono.errors.common.EntityNotFoundException;
 import com.apside.prono.errors.contest.BadRequestCreateContestException;
+import com.apside.prono.errors.contest.BadRequestDeleteContestException;
 import com.apside.prono.errors.contest.BadRequestUpdateContestException;
 import com.apside.prono.mapper.contest.ContestEntityMapper;
 import com.apside.prono.mapper.contest.ContestMapper;
@@ -13,10 +14,12 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.DateFormat;
 import java.text.MessageFormat;
-import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 
 @Service
@@ -96,12 +99,40 @@ public class ContestService {
 
     @Transactional
     public void delete(long id) {
-        if (!contestRepository.findById(id).isPresent()) {
-            String pattern = bundle.getString("contest_wrong_id");
-            String message = MessageFormat.format(pattern, id);
-            throw new EntityNotFoundException(message);
+        Date date = new Date();
+        Date stDate = new Date();
+        Date enDate = new Date();
+
+        Contest contest = this.getContest(id);
+        ContestEntity contestEntity = ContestEntityMapper.INSTANCE.mapContestEntity(contest);
+
+        String startDate = contest.getStartDate();
+        String endDate = contest.getEndDate();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+
+        try {
+            stDate = format.parse(startDate);
+            enDate = format.parse(endDate);
+        } catch (java.text.ParseException e){
+            e.printStackTrace();
         }
-        contestRepository.deleteById(id);
+
+        if(stDate.after(date) && enDate.after(date)) {
+            if (!contestRepository.findById(contestEntity.getId()).isPresent()) {
+                String pattern = bundle.getString("contest_wrong_id");
+                String message = MessageFormat.format(pattern, contestEntity.getId());
+                throw new EntityNotFoundException(message);
+            }
+            contestRepository.deleteById(contestEntity.getId());
+        } else if(stDate.before(date) && enDate.after(date)) {
+            String pattern = bundle.getString("contest_already_begun");
+            String message = MessageFormat.format(pattern, contestEntity.getId());
+            throw new BadRequestDeleteContestException(message);
+        } else {
+            String pattern = bundle.getString("contest_finished");
+            String message = MessageFormat.format(pattern, contestEntity.getId());
+            throw new BadRequestDeleteContestException(message);
+        }
     }
 
     public ContestEntity find(String label) {

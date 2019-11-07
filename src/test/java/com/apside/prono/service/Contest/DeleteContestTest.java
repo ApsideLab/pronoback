@@ -35,7 +35,12 @@ public class DeleteContestTest {
 
     @Test(expected = EntityNotFoundException.class)
     public void testBadRequestDeleteContest() throws Exception {
-        contestService.delete(-1L);
+        ContestEntity contestEntity = new ContestEntity();
+        contestEntity.setId(-1L);
+        contestEntity.setLabel(LIBELLE_CONTEST1);
+        contestEntity.setStartDate(STARTDATE_CONTEST1);
+        contestEntity.setEndDate(ENDDATE_CONTEST1);
+        contestService.delete(contestEntity.getId());
     }
 
     @Test
@@ -46,6 +51,6 @@ public class DeleteContestTest {
         contestEntity.setStartDate(STARTDATE_CONTEST1);
         contestEntity.setEndDate(ENDDATE_CONTEST1);
         when(contestRepository.findById(1L)).thenReturn(Optional.of(contestEntity));
-        contestService.delete(1L);
+        contestService.delete(contestEntity.getId());
     }
 }

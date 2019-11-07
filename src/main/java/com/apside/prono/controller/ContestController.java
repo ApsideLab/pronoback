@@ -101,15 +101,10 @@ public class ContestController {
      */
     @CrossOrigin(origins = "http://localhost:4200")
     @DeleteMapping("/contest/{id}")
-    public ResponseEntity<?> deleteContest(@PathVariable("id") long id) {
-        return null;
-        // TODO : Tout faire dans le service, récupérer la compétition et la supprimer dans le service
-//        Contest contestEntity = contestService.getContest(id);
-//
-//        String message = bundle.getString("delete_contest");
-//        log.debug(message, id);
-//
-//        contestService.delete(id);
-//        return new ResponseEntity<>(contest), HttpStatus.ACCEPTED);
+    public ResponseEntity<?> deleteContest(@Valid @PathVariable("id") long id) {
+        String message = bundle.getString("delete_contest");
+        log.debug(message, id);
+        contestService.delete(id);
+        return ResponseEntity.ok().body(id);
     }
 }
