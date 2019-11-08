@@ -54,8 +54,8 @@ public class DeleteContestTest {
         ContestEntity contestEntity = new ContestEntity();
         contestEntity.setId(1L);
         contestEntity.setLabel(LIBELLE_CONTEST1);
-        contestEntity.setStartDate(STARTDATE_CONTEST1);
-        contestEntity.setEndDate(ENDDATE_CONTEST1);
+        contestEntity.setStartDate("2020-10-05 08:30:00");
+        contestEntity.setEndDate("2020-11-05 08:30:00");
         when(contestRepository.findById(1L)).thenReturn(Optional.of(contestEntity));
         contestService.delete(contestEntity.getId());
     }
