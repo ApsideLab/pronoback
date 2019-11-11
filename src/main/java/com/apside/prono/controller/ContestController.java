@@ -87,8 +87,7 @@ public class ContestController {
     public ResponseEntity<?> updateContest(@Valid @RequestBody Contest contest) throws URISyntaxException {
         String message = bundle.getString("put_contest");
         log.debug(message, contest);
-        ContestEntity contestEntity = ContestEntityMapper.INSTANCE.mapContestEntity(contest);
-        contestEntity = contestService.update(contestEntity);
+        ContestEntity contestEntity = contestService.update(contest);
         return new ResponseEntity<>(ContestMapper.INSTANCE.mapContest(contestEntity), HttpStatus.ACCEPTED);
     }
 
