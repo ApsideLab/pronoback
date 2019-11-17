@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -37,6 +38,7 @@ public class ContestController {
      */
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/contests")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public List<ContestEntity> getAllContests() {
         log.debug(bundle.getString("get_all_contests"));
         return contestService.getAll();
@@ -67,6 +69,7 @@ public class ContestController {
      */
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/contests")
+//    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> createContest(@Valid @RequestBody Contest contest)  {
         String message = bundle.getString("post_contest");
         log.debug(message, contest);
