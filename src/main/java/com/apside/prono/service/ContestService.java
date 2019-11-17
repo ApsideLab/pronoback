@@ -36,7 +36,7 @@ public class ContestService {
         ContestEntity contestEntity = ContestEntityMapper.INSTANCE.mapContestEntity(contest);
 
         if (contestEntity != null) {
-            if (contestEntity.getId() != null) {
+            if (contest.getId() != null) {
                 throw new BadRequestCreateContestException(bundle.getString("new_contest_create"));
             }
             if (contestRepository.findByLabel(contestEntity.getLabel()) != null) {

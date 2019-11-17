@@ -50,13 +50,13 @@ public class SaveContestTest {
         when(contestRepository.save(any(ContestEntity.class))).thenReturn(contestSave);
 
         //Execute
-        ContestEntity contestEntity = ContestEntityMapper.INSTANCE.mapContestEntity(contestService.createContest(contestFront));
+        Contest contest = contestService.createContest(contestFront);
 
         // Verif
-        assertEquals(1L, contestEntity.getId().longValue());
-        assertEquals(contestFront.getLabel(), contestEntity.getLabel());
-        assertEquals(contestFront.getStartDate(), contestEntity.getStartDate());
-        assertEquals(contestFront.getEndDate(), contestEntity.getEndDate());
+        assertEquals(1L, Long.parseLong(contest.getId()));
+        assertEquals(contestFront.getLabel(), contest.getLabel());
+        assertEquals(contestFront.getStartDate(), contest.getStartDate());
+        assertEquals(contestFront.getEndDate(), contest.getEndDate());
     }
 
     @Test(expected = BadRequestCreateContestException.class)
