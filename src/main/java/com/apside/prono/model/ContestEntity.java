@@ -14,7 +14,7 @@ public class ContestEntity {
     private Long id;
 
     @NotNull
-    @Column(name = "label", nullable = false, unique = true)
+    @Column(name = "label", nullable = false)
     private String label;
 
     @NotNull

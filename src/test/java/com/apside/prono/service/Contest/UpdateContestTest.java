@@ -1,7 +1,9 @@
 package com.apside.prono.service.Contest;//package com.apside.prono.service.Contest;
 
 import com.apside.prono.errors.common.EntityNotFoundException;
+import com.apside.prono.mapper.contest.ContestEntityMapper;
 import com.apside.prono.model.ContestEntity;
+import com.apside.prono.modelapi.Contest;
 import com.apside.prono.repository.ContestRepository;
 import com.apside.prono.service.ContestService;
 import org.junit.Before;
@@ -15,6 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -38,35 +41,61 @@ public class UpdateContestTest {
 
     @Test
     public void updateContest() {
-        ContestEntity contestEntity = new ContestEntity();
-        contestEntity.setLabel(LIBELLE_CONTEST1);
-        contestEntity.setStartDate(STARTDATE_CONTEST1);
-        contestEntity.setEndDate(ENDDATE_CONTEST1);
-        ContestEntity contestUpdate = new ContestEntity();
-        contestUpdate.setId(1L);
-        contestUpdate.setLabel(LIBELLE_CONTEST2);
-        contestUpdate.setStartDate(STARTDATE_CONTEST2);
-        contestUpdate.setEndDate(ENDDATE_CONTEST2);
-        when(contestRepository.findById(1L)).thenReturn(Optional.of(contestUpdate));
-        ContestEntity contest = contestService.update(contestUpdate);
-        assertEquals(Long.valueOf(1L), contest.getId());
-        assertEquals(LIBELLE_CONTEST2, contest.getLabel());
-        assertEquals(STARTDATE_CONTEST2, contest.getStartDate());
-        assertEquals(ENDDATE_CONTEST2, contest.getEndDate());
+        //Init
+        ContestEntity contestInBdd = new ContestEntity();
+        contestInBdd.setId(1L);
+        contestInBdd.setLabel(LIBELLE_CONTEST1);
+        contestInBdd.setStartDate(STARTDATE_CONTEST1);
+        contestInBdd.setEndDate(ENDDATE_CONTEST1);
+
+        Contest contestToUpdate = new Contest();
+        contestToUpdate.setId("1");
+        contestToUpdate.setLabel(LIBELLE_CONTEST2);
+        contestToUpdate.setStartDate(STARTDATE_CONTEST2);
+        contestToUpdate.setEndDate(ENDDATE_CONTEST2);
+
+        ContestEntity contestAfterSave = ContestEntityMapper.INSTANCE.mapContestEntity(contestToUpdate);
+        contestAfterSave.setId(1L);
+
+        when(contestRepository.findById(1L)).thenReturn(Optional.of(contestInBdd));
+        when(contestRepository.save(any(ContestEntity.class))).thenReturn(contestAfterSave);
+
+        //Execute
+        ContestEntity contestUpdated = contestService.update(contestToUpdate);
+
+        //Test
+        assertEquals(Long.valueOf(1L), contestUpdated.getId());
+        assertEquals(LIBELLE_CONTEST2, contestUpdated.getLabel());
+        assertEquals(STARTDATE_CONTEST2, contestUpdated.getStartDate());
+        assertEquals(ENDDATE_CONTEST2, contestUpdated.getEndDate());
     }
 
     @Test(expected = EntityNotFoundException.class)
-    public void testEntityNotFoundUpdateContest() throws Exception {
-        ContestEntity contestEntity = new ContestEntity();
-        contestEntity.setId(1L);
-        contestEntity.setLabel(LIBELLE_CONTEST2);
-        contestEntity.setStartDate(STARTDATE_CONTEST2);
-        contestEntity.setEndDate(ENDDATE_CONTEST2);
-        contestService.update(contestEntity);
+    public void testEntityNotFoundUpdateContest() {
+        Contest contest = new Contest();
+        contest.setId(null);
+        contest.setLabel(LIBELLE_CONTEST2);
+        contest.setStartDate(STARTDATE_CONTEST2);
+        contest.setEndDate(ENDDATE_CONTEST2);
+        contestService.update(contest);
     }
 
     @Test(expected = EntityNotFoundException.class)
-    public void testEntityNotFoundUpdateActorNull() throws Exception {
+    public void testEntityNotFoundUpdateContestNotExistInBDD() throws Exception {
+        Contest contest = new Contest();
+        contest.setId("1");
+        contest.setLabel(LIBELLE_CONTEST2);
+        contest.setStartDate(STARTDATE_CONTEST2);
+        contest.setEndDate(ENDDATE_CONTEST2);
+        contestService.update(contest);
+
+        when(contestRepository.findById(1L)).thenReturn(Optional.empty());
+
+        contestService.update(contest);
+    }
+
+    @Test(expected = EntityNotFoundException.class)
+    public void testEntityNotFoundUpdateContestNull() {
         contestService.update(null);
     }
 }

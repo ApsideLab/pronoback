@@ -84,8 +84,7 @@ public class ContestController {
     public ResponseEntity<?> updateContest(@Valid @RequestBody Contest contest) throws URISyntaxException {
         String message = bundle.getString("put_contest");
         log.debug(message, contest);
-        ContestEntity contestEntity = ContestEntityMapper.INSTANCE.mapContestEntity(contest);
-        contestEntity = contestService.update(contestEntity);
+        ContestEntity contestEntity = contestService.update(contest);
         return new ResponseEntity<>(ContestMapper.INSTANCE.mapContest(contestEntity), HttpStatus.ACCEPTED);
     }
 
@@ -97,15 +96,10 @@ public class ContestController {
      * @return the ResponseEntity with status 201 (deleted) and with body the new contest, or with status 400 (Bad Request) if the contest has already an ID
      */
     @DeleteMapping("/contest/{id}")
-    public ResponseEntity<?> deleteContest(@PathVariable("id") long id) {
-        return null;
-        // TODO : Tout faire dans le service, récupérer la compétition et la supprimer dans le service
-//        Contest contestEntity = contestService.getContest(id);
-//
-//        String message = bundle.getString("delete_contest");
-//        log.debug(message, id);
-//
-//        contestService.delete(id);
-//        return new ResponseEntity<>(contest), HttpStatus.ACCEPTED);
+    public ResponseEntity<?> deleteContest(@Valid @PathVariable("id") long id) {
+        String message = bundle.getString("delete_contest");
+        log.debug(message, id);
+        contestService.delete(id);
+        return ResponseEntity.ok().body(id);
     }
 }

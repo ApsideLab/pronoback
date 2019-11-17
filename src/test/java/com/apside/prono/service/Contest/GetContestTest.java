@@ -3,6 +3,7 @@ package com.apside.prono.service.Contest;//package com.apside.prono.service.Cont
 import com.apside.prono.errors.common.EntityNotFoundException;
 import com.apside.prono.mapper.contest.ContestEntityMapper;
 import com.apside.prono.model.ContestEntity;
+import com.apside.prono.modelapi.Contest;
 import com.apside.prono.repository.ContestRepository;
 import com.apside.prono.service.ContestService;
 import org.junit.Before;
@@ -70,11 +71,11 @@ public class GetContestTest {
         contestEntity.get().setEndDate(ENDDATE_CONTEST1);
 
         when(contestRepository.findById(1L)).thenReturn(contestEntity);
-        ContestEntity result = ContestEntityMapper.INSTANCE.mapContestEntity(contestService.getContest(1L));
-        assertEquals(Long.valueOf(1L), result.getId());
-        assertEquals(LIBELLE_CONTEST1, result.getLabel());
-        assertEquals(STARTDATE_CONTEST1, result.getStartDate());
-        assertEquals(ENDDATE_CONTEST1, result.getEndDate());
+        Contest contest = contestService.getContest(1L);
+        assertEquals(Long.valueOf(1L).longValue(), Long.parseLong(contest.getId()));
+        assertEquals(LIBELLE_CONTEST1, contest.getLabel());
+        assertEquals(STARTDATE_CONTEST1, contest.getStartDate());
+        assertEquals(ENDDATE_CONTEST1, contest.getEndDate());
     }
 
     @Test(expected = EntityNotFoundException.class)
