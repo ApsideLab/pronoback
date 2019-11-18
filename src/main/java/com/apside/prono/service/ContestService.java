@@ -33,9 +33,6 @@ public class ContestService {
             if (contest.getId() != null) {
                 throw new BadRequestCreateContestException(bundle.getString("new_contest_create"));
             }
-            if (contestRepository.findByLabel(contestEntity.getLabel()) != null) {
-                throw new BadRequestCreateContestException(bundle.getString("new_contest_exists"));
-            }
             contestEntity = contestRepository.save(contestEntity);
         } else {
             throw new BadRequestCreateContestException(bundle.getString("new_contest_empty"));
