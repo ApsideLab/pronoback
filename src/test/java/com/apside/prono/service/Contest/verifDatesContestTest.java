@@ -2,6 +2,7 @@ package com.apside.prono.service.Contest;//package com.apside.prono.service.Cont
 
 import com.apside.prono.controller.ContestController;
 import com.apside.prono.errors.common.EntityNotFoundException;
+import com.apside.prono.errors.contest.BadRequestDeleteContestException;
 import com.apside.prono.model.ContestEntity;
 import com.apside.prono.repository.ContestRepository;
 import com.apside.prono.service.ContestService;
@@ -15,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -23,11 +25,11 @@ import java.util.Optional;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-public class DeleteContestTest {
+public class verifDatesContestTest {
 
     private static final String LIBELLE_CONTEST1 = "contest 1";
-    private static final String STARTDATE_CONTEST1 = "05/10/2019";
-    private static final String ENDDATE_CONTEST1 = "05/11/2019";
+    private static final String STARTDATE_CONTEST1 = "2020-05-20 08:00:00";
+    private static final String ENDDATE_CONTEST1 = "2020-06-12 21:00:00";
 
     @Mock
     private ContestRepository contestRepository;
@@ -39,24 +41,30 @@ public class DeleteContestTest {
         MockitoAnnotations.initMocks(this);
     }
 
-    @Test(expected = EntityNotFoundException.class)
-    public void testBadRequestDeleteContest() throws Exception {
+    @Test
+    public void verifDatesContestTest() {
+        final Logger log = LoggerFactory.getLogger(ContestController.class);
         ContestEntity contestEntity = new ContestEntity();
-        contestEntity.setId(-1L);
-        contestEntity.setLabel(LIBELLE_CONTEST1);
         contestEntity.setStartDate(STARTDATE_CONTEST1);
         contestEntity.setEndDate(ENDDATE_CONTEST1);
-        contestService.delete(contestEntity.getId());
-    }
 
-    @Test
-    public void testDeleteContest() {
-        ContestEntity contestEntity = new ContestEntity();
-        contestEntity.setId(1L);
-        contestEntity.setLabel(LIBELLE_CONTEST1);
-        contestEntity.setStartDate("2020-10-05 08:30:00");
-        contestEntity.setEndDate("2020-11-05 08:30:00");
-        when(contestRepository.findById(1L)).thenReturn(Optional.of(contestEntity));
-        contestService.delete(contestEntity.getId());
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+
+        Date date = new Date();
+        Date stDate = new Date();
+        Date enDate = new Date();
+
+        try {
+            stDate = format.parse(contestEntity.getStartDate());
+            enDate = format.parse(contestEntity.getEndDate());
+        } catch (java.text.ParseException e){
+            e.printStackTrace();
+        }
+
+        if(!(stDate.after(date) && enDate.after(date))) {
+            log.debug("concours terminé");
+        } else if(stDate.before(date) && enDate.after(date)) {
+            log.debug("concours commencé");
+        }
     }
 }
