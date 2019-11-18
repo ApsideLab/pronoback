@@ -31,7 +31,7 @@ public class ContestController {
     private ResourceBundle bundle = ResourceBundle.getBundle("messagesControllerError");
 
     /**
-     * GET  /contest : get all contest.
+     * GET  /contests : get all contest.
      *
      * @return the ResponseEntity with status 200 (OK) and the list of contest in body
      */
@@ -43,13 +43,13 @@ public class ContestController {
     }
 
     /**
-     * GET  /contest/:id : get the "id" contest.
+     * GET  /contests/:id : get the "id" contest.
      *
      * @param id the id of the contest to retrieve
      * @return the ResponseEntity with status 200 (OK) and with body the contest, or with status 404 (Not Found)
      */
     @CrossOrigin(origins = "http://localhost:4200")
-    @GetMapping("/contest/{id}")
+    @GetMapping("/contests/{id}")
     public ResponseEntity<?> getContest(@PathVariable("id") long id) {
         String message = bundle.getString("get_contest");
         log.debug(message, id);
@@ -59,7 +59,7 @@ public class ContestController {
     }
 
     /**
-     * POST  /contest/ : Create a new contest.
+     * POST  /contests/ : Create a new contest.
      *
      * @param contest the contest to create
      * @return the ResponseEntity with status 201 (Created) and with body the new contest, or with status 400 (Bad Request) if the contest has already an ID
@@ -76,7 +76,7 @@ public class ContestController {
     }
 
     /**
-     * PUT  /contest/ : update an contest.
+     * PUT  /contests/ : update an contest.
      *
      * @param contest the contest to update
      * @return the ResponseEntity with status 201 (Update) and with body the new contest, or with status 400 (Bad Request) if the contest has already an ID
@@ -93,13 +93,13 @@ public class ContestController {
 
 
     /**
-     * DELETE  /contest/:id : delete an contest.
+     * DELETE  /contests/:id : delete an contest.
      *
      * @param id the contest to delete
      * @return the ResponseEntity with status 201 (deleted) and with body the new contest, or with status 400 (Bad Request) if the contest has already an ID
      */
     @CrossOrigin(origins = "http://localhost:4200")
-    @DeleteMapping("/contest/{id}")
+    @DeleteMapping("/contests/{id}")
     public ResponseEntity<?> deleteContest(@Valid @PathVariable("id") long id) {
         String message = bundle.getString("delete_contest");
         log.debug(message, id);
