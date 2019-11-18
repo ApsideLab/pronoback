@@ -37,8 +37,6 @@ public class ContestService {
                 throw new BadRequestCreateContestException(bundle.getString("new_contest_exists"));
             }
             contestEntity = contestRepository.save(contestEntity);
-        } else {
-            throw new BadRequestCreateContestException(bundle.getString("new_contest_empty"));
         }
         return ContestMapper.INSTANCE.mapContest(contestEntity);
     }
