@@ -13,8 +13,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.MessageFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Optional;
+import java.util.ResourceBundle;
 
 
 @Service
@@ -94,25 +97,17 @@ public class ContestService {
     }
 
     private void verifDatesContest(long id, Optional<ContestEntity> contestEntity) {
-        Date date = new Date();
-        Date stDate = new Date();
-        Date enDate = new Date();
-        String startDate = contestEntity.get().getStartDate();
-        String endDate = contestEntity.get().getEndDate();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime dateToday = LocalDateTime.parse(LocalDateTime.now().format(formatter), formatter);
+        LocalDateTime startDate = LocalDateTime.parse(contestEntity.get().getStartDate(), formatter);
+        LocalDateTime endDate = LocalDateTime.parse(contestEntity.get().getEndDate(), formatter);
 
-        try {
-            stDate = format.parse(startDate);
-            enDate = format.parse(endDate);
-        } catch (java.text.ParseException e){
-            e.printStackTrace();
-        }
-
-        if(!(stDate.after(date) && enDate.after(date))) {
+        if(dateToday.isAfter(endDate)) {
             String pattern = bundle.getString("contest_finished");
             String message = MessageFormat.format(pattern, id);
             throw new BadRequestDeleteContestException(message);
-        } else if(stDate.before(date) && enDate.after(date)) {
+        } else if((dateToday.isAfter(startDate) || dateToday.isEqual(startDate))
+                && (dateToday.isBefore(endDate) || dateToday.isEqual(endDate)) ) {
             String pattern = bundle.getString("contest_already_begun");
             String message = MessageFormat.format(pattern, id);
             throw new BadRequestDeleteContestException(message);
