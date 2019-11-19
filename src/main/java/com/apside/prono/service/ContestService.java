@@ -66,7 +66,7 @@ public class ContestService {
                 String message = MessageFormat.format(pattern, contest.getId());
                 throw new EntityNotFoundException(message);
             }
-            Long contestId = Long.parseLong(contest.getId());
+            Long contestId = contest.getId();
             Optional<ContestEntity> contestEntity = contestRepository.findById(contestId);
 
             if (contestEntity.isPresent()) {
@@ -99,8 +99,8 @@ public class ContestService {
     private void verifDatesContest(long id, Optional<ContestEntity> contestEntity) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime dateToday = LocalDateTime.parse(LocalDateTime.now().format(formatter), formatter);
-        LocalDateTime startDate = LocalDateTime.parse(contestEntity.get().getStartDate(), formatter);
-        LocalDateTime endDate = LocalDateTime.parse(contestEntity.get().getEndDate(), formatter);
+        LocalDateTime startDate = contestEntity.get().getStartDate();
+        LocalDateTime endDate = contestEntity.get().getEndDate();
 
         if(dateToday.isAfter(endDate)) {
             String pattern = bundle.getString("contest_finished");

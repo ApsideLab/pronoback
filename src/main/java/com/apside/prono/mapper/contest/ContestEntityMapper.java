@@ -12,7 +12,7 @@ public interface ContestEntityMapper {
 
     ContestEntityMapper INSTANCE = Mappers.getMapper(ContestEntityMapper.class);
 
-    @Mapping(target = "id",  ignore = true)
+    @Mapping(target = "id",  source="id")
     @Mapping(target = "label", source = "label")
     @Mapping(target = "startDate", source="startDate")
     @Mapping(target = "endDate", source="endDate")

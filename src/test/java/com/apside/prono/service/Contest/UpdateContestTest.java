@@ -14,6 +14,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
@@ -24,11 +26,11 @@ import static org.mockito.Mockito.when;
 public class UpdateContestTest {
 
     private static final String LIBELLE_CONTEST1 = "contest 1";
-    private static final String STARTDATE_CONTEST1 = "05/10/2019";
-    private static final String ENDDATE_CONTEST1 = "05/11/2019";
+    private static final LocalDateTime STARTDATE_CONTEST1 = LocalDateTime.of(2019, Month.OCTOBER, 5, 20, 00, 00);
+    private static final LocalDateTime ENDDATE_CONTEST1 = LocalDateTime.of(2019, Month.NOVEMBER, 5, 19, 00, 00);
     private static final String LIBELLE_CONTEST2 = "contest 2";
-    private static final String STARTDATE_CONTEST2 = "05/12/2019";
-    private static final String ENDDATE_CONTEST2 = "05/01/2020";
+    private static final LocalDateTime STARTDATE_CONTEST2 = LocalDateTime.of(2019, Month.DECEMBER, 5, 15, 30, 00);
+    private static final LocalDateTime ENDDATE_CONTEST2 = LocalDateTime.of(2020, Month.JANUARY, 5, 21, 45, 00);
     @Mock
     private ContestRepository contestRepository;
     @InjectMocks
@@ -49,7 +51,7 @@ public class UpdateContestTest {
         contestInBdd.setEndDate(ENDDATE_CONTEST1);
 
         Contest contestToUpdate = new Contest();
-        contestToUpdate.setId("1");
+        contestToUpdate.setId(1L);
         contestToUpdate.setLabel(LIBELLE_CONTEST2);
         contestToUpdate.setStartDate(STARTDATE_CONTEST2);
         contestToUpdate.setEndDate(ENDDATE_CONTEST2);
@@ -83,7 +85,7 @@ public class UpdateContestTest {
     @Test(expected = EntityNotFoundException.class)
     public void testEntityNotFoundUpdateContestNotExistInBDD() throws Exception {
         Contest contest = new Contest();
-        contest.setId("1");
+        contest.setId(1L);
         contest.setLabel(LIBELLE_CONTEST2);
         contest.setStartDate(STARTDATE_CONTEST2);
         contest.setEndDate(ENDDATE_CONTEST2);
