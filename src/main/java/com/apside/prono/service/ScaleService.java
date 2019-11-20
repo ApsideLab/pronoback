@@ -58,14 +58,14 @@ public class ScaleService {
                 throw new EntityNotFoundException(message);
             }
 
-            scaleRepository.findById(scaleEntity.getId()).get().setDateDebutValidite(scaleEntity.getDateDebutValidite());
-            scaleRepository.findById(scaleEntity.getId()).get().setDateFinValidite(scaleEntity.getDateFinValidite());
+            /*scaleRepository.findById(scaleEntity.getId()).get().setDateDebutValidite(scaleEntity.getDateDebutValidite());
+            scaleRepository.findById(scaleEntity.getId()).get().setDateFinValidite(scaleEntity.getDateFinValidite());*/
             scaleRepository.findById(scaleEntity.getId()).get().setLabel(scaleEntity.getLabel());
             scaleRepository.findById(scaleEntity.getId()).get().setPtsBonResultat(scaleEntity.getPtsBonResultat());
-            scaleRepository.findById(scaleEntity.getId()).get().setPtsBonusDeuxScoresExacts(scaleEntity.getPtsBonusDeuxScoresExacts());
+            /*scaleRepository.findById(scaleEntity.getId()).get().setPtsBonusDeuxScoresExacts(scaleEntity.getPtsBonusDeuxScoresExacts());
             scaleRepository.findById(scaleEntity.getId()).get().setPtsBonusEcartButs(scaleEntity.getPtsBonusEcartButs());
             scaleRepository.findById(scaleEntity.getId()).get().setPtsBonusUnScoreExactResultatKO(scaleEntity.getPtsBonusUnScoreExactResultatKO());
-            scaleRepository.findById(scaleEntity.getId()).get().setPtsBonusUnScoreExactResultatOK(scaleEntity.getPtsBonusUnScoreExactResultatOK());
+            scaleRepository.findById(scaleEntity.getId()).get().setPtsBonusUnScoreExactResultatOK(scaleEntity.getPtsBonusUnScoreExactResultatOK());*/
             scaleRepository.flush();
 
             ScaleEntity scaleUpdate = scaleRepository.findById(Long.valueOf(scaleEntity.getId())).get();

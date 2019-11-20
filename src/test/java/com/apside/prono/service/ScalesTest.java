@@ -84,13 +84,13 @@ public class ScalesTest {
         ScaleEntity scaleSave = new ScaleEntity();
         scaleSave.setId(1L);
         scaleSave.setLabel(LIBELLE_SCALE1);
-        scaleEntity.setPtsBonusUnScoreExactResultatOK(1);
+        /*scaleEntity.setPtsBonusUnScoreExactResultatOK(1);
         scaleEntity.setPtsBonusUnScoreExactResultatKO(2);
         scaleEntity.setPtsBonusEcartButs(3);
-        scaleEntity.setPtsBonusDeuxScoresExacts(4);
+        scaleEntity.setPtsBonusDeuxScoresExacts(4);*/
         scaleEntity.setPtsBonResultat(5);
-        scaleEntity.setDateFinValidite(new Date());
-        scaleEntity.setDateDebutValidite(new Date());
+        /*scaleEntity.setDateFinValidite(new Date());
+        scaleEntity.setDateDebutValidite(new Date());*/
         when(scaleRepository.save(scaleEntity)).thenReturn(scaleSave);
         ScaleEntity scale = scaleService.createScale(scaleEntity);
         assertEquals(Long.valueOf(1L), scale.getId());
