@@ -3,6 +3,7 @@ package com.apside.prono.service;
 import com.apside.prono.errors.common.EntityNotFoundException;
 import com.apside.prono.errors.contest.BadRequestCreateContestException;
 import com.apside.prono.errors.contest.BadRequestDeleteContestException;
+import com.apside.prono.helpers.TimeFactory;
 import com.apside.prono.mapper.contest.ContestEntityMapper;
 import com.apside.prono.mapper.contest.ContestMapper;
 import com.apside.prono.model.ContestEntity;
@@ -25,6 +26,9 @@ import java.util.ResourceBundle;
 public class ContestService {
     @Autowired
     private ContestRepository contestRepository;
+
+    @Autowired
+    private TimeFactory timeFactory;
 
     private ResourceBundle bundle = ResourceBundle.getBundle("messagesServicesError");
 
@@ -96,9 +100,10 @@ public class ContestService {
         contestRepository.deleteById(contestEntity.get().getId());
     }
 
-    private void verifDatesContest(long id, Optional<ContestEntity> contestEntity) {
+    public void verifDatesContest(long id, Optional<ContestEntity> contestEntity) {
+        LocalDateTime dateJour = timeFactory.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime dateToday = LocalDateTime.parse(LocalDateTime.now().format(formatter), formatter);
+        LocalDateTime dateToday = LocalDateTime.parse(dateJour.format(formatter), formatter);
         LocalDateTime startDate = contestEntity.get().getStartDate();
         LocalDateTime endDate = contestEntity.get().getEndDate();
 
