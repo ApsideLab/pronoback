@@ -1,11 +1,11 @@
 package com.apside.prono.model;
 
+
+import com.apside.prono.modelapi.Contest;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 
 @Entity
 @Table(name = "scale")
@@ -21,17 +21,18 @@ public class ScaleEntity {
     @NotNull
     private long ptsBonResultat;
     @NotNull
-    private long ptsBonusEcartButs;
+    private long ptsNbButs;
     @NotNull
-    private long ptsBonusDeuxScoresExacts;
+    private long ptsPunchingball;
     @NotNull
-    private long ptsBonusUnScoreExactResultatOK;
+    private long ptsPatator;
     @NotNull
-    private long ptsBonusUnScoreExactResultatKO;
+    private long ptsVainqueurFinal;
     @NotNull
-    private Date dateDebutValidite;
-    @NotNull
-    private Date dateFinValidite;
+    @Column(columnDefinition = "boolean default false")
+    private boolean isActive;
+    @ManyToOne
+    private ContestEntity contest;
 
     public Long getId() {
         return id;
@@ -57,51 +58,51 @@ public class ScaleEntity {
         this.ptsBonResultat = ptsBonResultat;
     }
 
-    public long getPtsBonusEcartButs() {
-        return ptsBonusEcartButs;
+    public long getPtsNbButs() {
+        return ptsNbButs;
     }
 
-    public void setPtsBonusEcartButs(long ptsBonusEcartButs) {
-        this.ptsBonusEcartButs = ptsBonusEcartButs;
+    public void setPtsNbButs(long ptsNbButs) {
+        this.ptsNbButs = ptsNbButs;
     }
 
-    public long getPtsBonusDeuxScoresExacts() {
-        return ptsBonusDeuxScoresExacts;
+    public long getPtsPunchingball() {
+        return ptsPunchingball;
     }
 
-    public void setPtsBonusDeuxScoresExacts(long ptsBonusDeuxScoresExacts) {
-        this.ptsBonusDeuxScoresExacts = ptsBonusDeuxScoresExacts;
+    public void setPtsPunchingball(long ptsPunchingball) {
+        this.ptsPunchingball = ptsPunchingball;
     }
 
-    public long getPtsBonusUnScoreExactResultatOK() {
-        return ptsBonusUnScoreExactResultatOK;
+    public long getPtsPatator() {
+        return ptsPatator;
     }
 
-    public void setPtsBonusUnScoreExactResultatOK(long ptsBonusUnScoreExactResultatOK) {
-        this.ptsBonusUnScoreExactResultatOK = ptsBonusUnScoreExactResultatOK;
+    public void setPtsPatator(long ptsPatator) {
+        this.ptsPatator = ptsPatator;
     }
 
-    public long getPtsBonusUnScoreExactResultatKO() {
-        return ptsBonusUnScoreExactResultatKO;
+    public long getPtsVainqueurFinal() {
+        return ptsVainqueurFinal;
     }
 
-    public void setPtsBonusUnScoreExactResultatKO(long ptsBonusUnScoreExactResultatKO) {
-        this.ptsBonusUnScoreExactResultatKO = ptsBonusUnScoreExactResultatKO;
+    public void setPtsVainqueurFinal(long ptsVainqueurFinal) {
+        this.ptsVainqueurFinal = ptsVainqueurFinal;
     }
 
-    public Date getDateDebutValidite() {
-        return dateDebutValidite;
+    public boolean isActive() {
+        return isActive;
     }
 
-    public void setDateDebutValidite(Date dateDebutValidite) {
-        this.dateDebutValidite = dateDebutValidite;
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
-    public Date getDateFinValidite() {
-        return dateFinValidite;
+    public ContestEntity getContest() {
+        return contest;
     }
 
-    public void setDateFinValidite(Date dateFinValidite) {
-        this.dateFinValidite = dateFinValidite;
+    public void setContest(ContestEntity contest) {
+        this.contest = contest;
     }
 }
