@@ -69,7 +69,7 @@ public class Scale {
         this.ptsVainqueurFinal = ptsVainqueurFinal;
     }
 
-    public Boolean getActive() {
+    public Boolean isActive() {
         return isActive;
     }
 

@@ -30,7 +30,7 @@ public class ScaleEntity {
     private long ptsVainqueurFinal;
     @NotNull
     @Column(columnDefinition = "boolean default false")
-    private boolean isActive;
+    private Boolean isActive;
     @ManyToOne
     private ContestEntity contest;
 
@@ -90,13 +90,14 @@ public class ScaleEntity {
         this.ptsVainqueurFinal = ptsVainqueurFinal;
     }
 
-    public boolean isActive() {
+    public Boolean isActive() {
         return isActive;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(Boolean active) {
         isActive = active;
     }
+
 
     public ContestEntity getContest() {
         return contest;
