@@ -61,7 +61,7 @@ public class GetContestTest {
 
         when(contestRepository.findAll()).thenReturn(contestEntityList);
 
-        List<ContestEntity> result = contestService.getAll();
+        List<Contest> result = contestService.getAll();
         assertEquals(2, result.size());
     }
 

@@ -37,7 +37,7 @@ public class ContestController {
      */
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/contests")
-    public List<ContestEntity> getAllContests() {
+    public List<Contest> getAllContests() {
         log.debug(bundle.getString("get_all_contests"));
         return contestService.getAll();
     }

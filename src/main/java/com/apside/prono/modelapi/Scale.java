@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Scale {
     private Long id;
-    private Integer label;
+    private String label;
     private Integer ptsBonResultat;
     private Integer ptsNbButs;
     private Integer ptsPunchingball;
@@ -21,11 +21,11 @@ public class Scale {
         this.id = id;
     }
 
-    public Integer getLabel() {
+    public String getLabel() {
         return label;
     }
 
-    public void setLabel(Integer label) {
+    public void setLabel(String label) {
         this.label = label;
     }
 

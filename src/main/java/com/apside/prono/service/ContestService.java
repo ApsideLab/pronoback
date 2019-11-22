@@ -7,6 +7,7 @@ import com.apside.prono.helpers.TimeFactory;
 import com.apside.prono.mapper.contest.ContestEntityMapper;
 import com.apside.prono.mapper.contest.ContestMapper;
 import com.apside.prono.model.ContestEntity;
+import com.apside.prono.model.ScaleEntity;
 import com.apside.prono.modelapi.Contest;
 import com.apside.prono.repository.ContestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 
 @Service
@@ -58,8 +60,8 @@ public class ContestService {
     }
 
     @Transactional
-    public List<ContestEntity> getAll() {
-        return contestRepository.findAll();
+    public List<Contest> getAll() {
+        return ContestMapper.INSTANCE.mapListContests(contestRepository.findAll());
     }
 
     @Transactional
@@ -125,5 +127,9 @@ public class ContestService {
                 return contestRepository.findAll().get(i);
         }
         return null;
+    }
+
+    public Set<ScaleEntity> findScales(ContestEntity contestEntity) {
+        return contestEntity.getScales();
     }
 }

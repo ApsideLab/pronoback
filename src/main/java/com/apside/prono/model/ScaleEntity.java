@@ -1,11 +1,11 @@
 package com.apside.prono.model;
 
 
-import com.apside.prono.modelapi.Contest;
 import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Optional;
 
 @Entity
 @Table(name = "scale")
@@ -98,7 +98,6 @@ public class ScaleEntity {
         isActive = active;
     }
 
-
     public ContestEntity getContest() {
         return contest;
     }
@@ -106,4 +105,6 @@ public class ScaleEntity {
     public void setContest(ContestEntity contest) {
         this.contest = contest;
     }
+
+
 }

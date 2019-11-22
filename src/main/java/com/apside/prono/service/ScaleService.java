@@ -2,10 +2,14 @@ package com.apside.prono.service;
 
 import com.apside.prono.errors.common.EntityNotFoundException;
 import com.apside.prono.errors.scale.BadRequestCreateScaleException;
+import com.apside.prono.mapper.contest.ContestEntityMapper;
 import com.apside.prono.mapper.scale.ScaleEntityMapper;
 import com.apside.prono.mapper.scale.ScaleMapper;
+import com.apside.prono.model.ContestEntity;
 import com.apside.prono.model.ScaleEntity;
+import com.apside.prono.modelapi.Contest;
 import com.apside.prono.modelapi.Scale;
+import com.apside.prono.repository.ContestRepository;
 import com.apside.prono.repository.ScaleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,15 +17,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.swing.text.html.Option;
 import java.text.MessageFormat;
-import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
 public class ScaleService {
     @Autowired
     private ScaleRepository scaleRepository;
+    @Autowired
+    private ContestRepository contestRepository;
+    private ContestService contestService = new ContestService();
 
     private ResourceBundle bundle = ResourceBundle.getBundle("messagesServicesError");
 
@@ -32,7 +37,27 @@ public class ScaleService {
         if(scaleEntity != null) {
             if(scale.getId() != null) {
                 throw new BadRequestCreateScaleException(bundle.getString("new_scale_create"));
+            } else if(scale.getContestId() == null) {
+                throw new BadRequestCreateScaleException(bundle.getString("new_scale_not_contestId"));
             }
+
+            Optional<ContestEntity> contestEntity = contestRepository.findById(scale.getContestId());
+            if(!contestEntity.isPresent()) {
+                String pattern = bundle.getString("new_scale_not_contestId");
+                String message = MessageFormat.format(pattern, scale.getContestId());
+                throw new EntityNotFoundException(message);
+            }
+
+            scaleEntity.setContest(contestEntity.get());
+
+            Set<ScaleEntity> scaleEntitiesByContest = contestService.findScales(contestEntity.get());
+
+            if(scaleEntitiesByContest.size() > 0) {
+                scaleEntity.setActive(false);
+            } else {
+                scaleEntity.setActive(true);
+            }
+
             scaleEntity = scaleRepository.save(scaleEntity);
         } else {
             throw new BadRequestCreateScaleException(bundle.getString("new_scale_empty"));
