@@ -56,7 +56,7 @@ public class SaveContestTest {
         Contest contest = contestService.createContest(contestFront);
 
         // Verif
-        assertEquals(java.util.Optional.of(1L), contest.getId());
+        assertEquals(1L, contest.getId().longValue());
         assertEquals(contestFront.getLabel(), contest.getLabel());
         assertEquals(contestFront.getStartDate(), contest.getStartDate());
         assertEquals(contestFront.getEndDate(), contest.getEndDate());
