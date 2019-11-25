@@ -4,6 +4,8 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Table(name = "contest")
@@ -19,11 +21,11 @@ public class ContestEntity {
 
     @NotNull
     @Column(name = "startDate", nullable = false)
-    private String startDate;
+    private LocalDateTime startDate;
 
     @NotNull
     @Column(name = "endDate", nullable = false)
-    private String endDate;
+    private LocalDateTime endDate;
 
     public Long getId() {
         return id;
@@ -41,12 +43,12 @@ public class ContestEntity {
         this.id = id;
     }
 
-    public String getStartDate() { return startDate; }
+    public LocalDateTime getStartDate() { return startDate; }
 
-    public void setStartDate(String startDate) { this.startDate = startDate; }
+    public void setStartDate(LocalDateTime startDate) { this.startDate = startDate; }
 
-    public String getEndDate() { return endDate; }
+    public LocalDateTime getEndDate() { return endDate; }
 
-    public void setEndDate(String endDate) { this.endDate = endDate; }
+    public void setEndDate(LocalDateTime endDate) { this.endDate = endDate; }
 
 }

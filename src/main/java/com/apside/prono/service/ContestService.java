@@ -3,6 +3,7 @@ package com.apside.prono.service;
 import com.apside.prono.errors.common.EntityNotFoundException;
 import com.apside.prono.errors.contest.BadRequestCreateContestException;
 import com.apside.prono.errors.contest.BadRequestDeleteContestException;
+import com.apside.prono.helpers.TimeFactory;
 import com.apside.prono.mapper.contest.ContestEntityMapper;
 import com.apside.prono.mapper.contest.ContestMapper;
 import com.apside.prono.model.ContestEntity;
@@ -13,8 +14,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.MessageFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Optional;
+import java.util.ResourceBundle;
 
 
 @Service
@@ -22,6 +26,9 @@ import java.util.*;
 public class ContestService {
     @Autowired
     private ContestRepository contestRepository;
+
+    @Autowired
+    private TimeFactory timeFactory;
 
     private ResourceBundle bundle = ResourceBundle.getBundle("messagesServicesError");
 
@@ -63,7 +70,7 @@ public class ContestService {
                 String message = MessageFormat.format(pattern, contest.getId());
                 throw new EntityNotFoundException(message);
             }
-            Long contestId = Long.parseLong(contest.getId());
+            Long contestId = contest.getId();
             Optional<ContestEntity> contestEntity = contestRepository.findById(contestId);
 
             if (contestEntity.isPresent()) {
@@ -93,26 +100,19 @@ public class ContestService {
         contestRepository.deleteById(contestEntity.get().getId());
     }
 
-    private void verifDatesContest(long id, Optional<ContestEntity> contestEntity) {
-        Date date = new Date();
-        Date stDate = new Date();
-        Date enDate = new Date();
-        String startDate = contestEntity.get().getStartDate();
-        String endDate = contestEntity.get().getEndDate();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+    public void verifDatesContest(long id, Optional<ContestEntity> contestEntity) {
+        LocalDateTime dateJour = timeFactory.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime dateToday = LocalDateTime.parse(dateJour.format(formatter), formatter);
+        LocalDateTime startDate = contestEntity.get().getStartDate();
+        LocalDateTime endDate = contestEntity.get().getEndDate();
 
-        try {
-            stDate = format.parse(startDate);
-            enDate = format.parse(endDate);
-        } catch (java.text.ParseException e){
-            e.printStackTrace();
-        }
-
-        if(!(stDate.after(date) && enDate.after(date))) {
+        if(dateToday.isAfter(endDate)) {
             String pattern = bundle.getString("contest_finished");
             String message = MessageFormat.format(pattern, id);
             throw new BadRequestDeleteContestException(message);
-        } else if(stDate.before(date) && enDate.after(date)) {
+        } else if((dateToday.isAfter(startDate) || dateToday.isEqual(startDate))
+                && (dateToday.isBefore(endDate) || dateToday.isEqual(endDate)) ) {
             String pattern = bundle.getString("contest_already_begun");
             String message = MessageFormat.format(pattern, id);
             throw new BadRequestDeleteContestException(message);
