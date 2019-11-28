@@ -84,7 +84,7 @@ public class ContestController {
      * @return the ResponseEntity with status 201 (Update) and with body the new contest, or with status 400 (Bad Request) if the contest has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @PutMapping("/contest")
+    @PutMapping("/contests")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> updateContest(@Valid @RequestBody Contest contest) throws URISyntaxException {
         String message = bundle.getString("put_contest");
