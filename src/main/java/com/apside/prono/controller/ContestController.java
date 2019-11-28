@@ -51,6 +51,7 @@ public class ContestController {
      * @return the ResponseEntity with status 200 (OK) and with body the contest, or with status 404 (Not Found)
      */
     @GetMapping("/contests/{id}")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<?> getContest(@PathVariable("id") long id) {
         String message = bundle.getString("get_contest");
         log.debug(message, id);
@@ -67,7 +68,7 @@ public class ContestController {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/contests")
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> createContest(@Valid @RequestBody Contest contest)  {
         String message = bundle.getString("post_contest");
         log.debug(message, contest);
@@ -84,6 +85,7 @@ public class ContestController {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/contest")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> updateContest(@Valid @RequestBody Contest contest) throws URISyntaxException {
         String message = bundle.getString("put_contest");
         log.debug(message, contest);
@@ -99,6 +101,7 @@ public class ContestController {
      * @return the ResponseEntity with status 201 (deleted) and with body the new contest, or with status 400 (Bad Request) if the contest has already an ID
      */
     @DeleteMapping("/contests/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> deleteContest(@Valid @PathVariable("id") long id) {
         String message = bundle.getString("delete_contest");
         log.debug(message, id);
