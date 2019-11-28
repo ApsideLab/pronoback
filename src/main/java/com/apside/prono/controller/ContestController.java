@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -20,6 +21,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.ResourceBundle;
 
+@CrossOrigin(origins = "${corsurl}")
 @RestController
 @RequestMapping(value = "/")
 public class ContestController {
@@ -35,8 +37,8 @@ public class ContestController {
      *
      * @return the ResponseEntity with status 200 (OK) and the list of contest in body
      */
-    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/contests")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public List<ContestEntity> getAllContests() {
         log.debug(bundle.getString("get_all_contests"));
         return contestService.getAll();
@@ -48,8 +50,8 @@ public class ContestController {
      * @param id the id of the contest to retrieve
      * @return the ResponseEntity with status 200 (OK) and with body the contest, or with status 404 (Not Found)
      */
-    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/contests/{id}")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<?> getContest(@PathVariable("id") long id) {
         String message = bundle.getString("get_contest");
         log.debug(message, id);
@@ -65,8 +67,8 @@ public class ContestController {
      * @return the ResponseEntity with status 201 (Created) and with body the new contest, or with status 400 (Bad Request) if the contest has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/contests")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> createContest(@Valid @RequestBody Contest contest)  {
         String message = bundle.getString("post_contest");
         log.debug(message, contest);
@@ -82,8 +84,8 @@ public class ContestController {
      * @return the ResponseEntity with status 201 (Update) and with body the new contest, or with status 400 (Bad Request) if the contest has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @CrossOrigin(origins = "http://localhost:4200")
-    @PutMapping("/contests")
+    @PutMapping("/contest")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> updateContest(@Valid @RequestBody Contest contest) throws URISyntaxException {
         String message = bundle.getString("put_contest");
         log.debug(message, contest);
@@ -98,8 +100,8 @@ public class ContestController {
      * @param id the contest to delete
      * @return the ResponseEntity with status 201 (deleted) and with body the new contest, or with status 400 (Bad Request) if the contest has already an ID
      */
-    @CrossOrigin(origins = "http://localhost:4200")
     @DeleteMapping("/contests/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> deleteContest(@Valid @PathVariable("id") long id) {
         String message = bundle.getString("delete_contest");
         log.debug(message, id);

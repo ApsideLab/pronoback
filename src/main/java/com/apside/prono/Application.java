@@ -58,17 +58,4 @@ public class Application {
             }
         };
     }
-
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/pronos/players").allowedOrigins("http://localhost:4200");
-                registry.addMapping("/pronos/actors").allowedOrigins("http://localhost:4200");
-                registry.addMapping("/pronos/scales").allowedOrigins("http://localhost:4200");
-                registry.addMapping("/pronos/evenements").allowedOrigins("http://localhost:4200");
-                registry.addMapping("/pronos/contests").allowedOrigins("http://localhost:4200");
-            }
-        };
-    }
 }
