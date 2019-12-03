@@ -75,7 +75,7 @@ public class GetContestTest {
 
         when(contestRepository.findById(1L)).thenReturn(contestEntity);
         Contest contest = contestService.getContest(1L);
-        assertEquals(Optional.of(Long.valueOf(1L).longValue()), contest.getId());
+        assertEquals(1L, contest.getId().longValue());
         assertEquals(LIBELLE_CONTEST1, contest.getLabel());
         assertEquals(STARTDATE_CONTEST1, contest.getStartDate());
         assertEquals(ENDDATE_CONTEST1, contest.getEndDate());
