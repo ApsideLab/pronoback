@@ -24,8 +24,11 @@ import java.util.*;
 public class ScaleService {
     @Autowired
     private ScaleRepository scaleRepository;
+
     @Autowired
     private ContestRepository contestRepository;
+
+    @Autowired
     private ContestService contestService = new ContestService();
 
     private ResourceBundle bundle = ResourceBundle.getBundle("messagesServicesError");
