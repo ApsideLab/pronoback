@@ -1,6 +1,5 @@
 package com.apside.prono.controller;
 
-import com.apside.prono.mapper.contest.ContestEntityMapper;
 import com.apside.prono.mapper.contest.ContestMapper;
 import com.apside.prono.model.ContestEntity;
 import com.apside.prono.modelapi.Contest;
@@ -39,7 +38,7 @@ public class ContestController {
      */
     @GetMapping("/contests")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public List<ContestEntity> getAllContests() {
+    public List<Contest> getAllContests() {
         log.debug(bundle.getString("get_all_contests"));
         return contestService.getAll();
     }
