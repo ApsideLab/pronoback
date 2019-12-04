@@ -11,7 +11,14 @@ public interface ScaleEntityMapper {
 
     ScaleEntityMapper INSTANCE = Mappers.getMapper(ScaleEntityMapper.class);
 
-    @Mapping(target = "id",  source = "id")
+    @Mapping(target = "id", source = "id")
     @Mapping(target = "label", source = "label")
-    ScaleEntity mapScaleEntity(Scale actor);
+    @Mapping(target = "ptsBonResultat", source="ptsBonResultat")
+    @Mapping(target = "ptsNbButs", source="ptsNbButs")
+    @Mapping(target = "ptsPunchingball", source="ptsPunchingball")
+    @Mapping(target = "ptsPatator", source="ptsPatator")
+    @Mapping(target = "ptsVainqueurFinal", source="ptsVainqueurFinal")
+    @Mapping(target = "active", source="active")
+    @Mapping(target = "contest", ignore=true)
+    ScaleEntity mapScaleEntity(Scale scale);
 }

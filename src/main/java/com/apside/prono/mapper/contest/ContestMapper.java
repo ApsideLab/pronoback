@@ -6,6 +6,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 @Mapper
 public interface ContestMapper {
 
@@ -16,4 +18,8 @@ public interface ContestMapper {
     @Mapping(target = "startDate", source="startDate")
     @Mapping(target = "endDate", source="endDate")
     Contest mapContest(ContestEntity contest);
+
+    public abstract List<Contest> mapListContests(List<ContestEntity> in);
 }
+
+

@@ -3,21 +3,21 @@ package com.apside.prono.modelapi;
 import java.util.Date;
 
 public class Scale {
-    private String id;
+    private Long id;
     private String label;
-    private Date dateDebutValidite;
-    private String ptsBonResultat;
-    private String ptsBonusEcartButs;
-    private String ptsBonusDeuxScoresExacts;
-    private String ptsBonusUnScoreExactResultatOK;
-    private String ptsBonusUnScoreExactResultatKO;
-    private Date dateFinValidite;
+    private Integer ptsBonResultat;
+    private Integer ptsNbButs;
+    private Integer ptsPunchingball;
+    private Integer ptsPatator;
+    private Integer ptsVainqueurFinal;
+    private Boolean isActive;
+    private Long contestId;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -29,59 +29,59 @@ public class Scale {
         this.label = label;
     }
 
-    public String getPtsBonResultat() {
+    public Integer getPtsBonResultat() {
         return ptsBonResultat;
     }
 
-    public void setPtsBonResultat(String ptsBonResultat) {
+    public void setPtsBonResultat(Integer ptsBonResultat) {
         this.ptsBonResultat = ptsBonResultat;
     }
 
-    public String getPtsBonusEcartButs() {
-        return ptsBonusEcartButs;
+    public Integer getPtsNbButs() {
+        return ptsNbButs;
     }
 
-    public void setPtsBonusEcartButs(String ptsBonusEcartButs) {
-        this.ptsBonusEcartButs = ptsBonusEcartButs;
+    public void setPtsNbButs(Integer ptsNbButs) {
+        this.ptsNbButs = ptsNbButs;
     }
 
-    public String getPtsBonusDeuxScoresExacts() {
-        return ptsBonusDeuxScoresExacts;
+    public Integer getPtsPunchingball() {
+        return ptsPunchingball;
     }
 
-    public void setPtsBonusDeuxScoresExacts(String ptsBonusDeuxScoresExacts) {
-        this.ptsBonusDeuxScoresExacts = ptsBonusDeuxScoresExacts;
+    public void setPtsPunchingball(Integer ptsPunchingball) {
+        this.ptsPunchingball = ptsPunchingball;
     }
 
-    public String getPtsBonusUnScoreExactResultatOK() {
-        return ptsBonusUnScoreExactResultatOK;
+    public Integer getPtsPatator() {
+        return ptsPatator;
     }
 
-    public void setPtsBonusUnScoreExactResultatOK(String ptsBonusUnScoreExactResultatOK) {
-        this.ptsBonusUnScoreExactResultatOK = ptsBonusUnScoreExactResultatOK;
+    public void setPtsPatator(Integer ptsPatator) {
+        this.ptsPatator = ptsPatator;
     }
 
-    public String getPtsBonusUnScoreExactResultatKO() {
-        return ptsBonusUnScoreExactResultatKO;
+    public Integer getPtsVainqueurFinal() {
+        return ptsVainqueurFinal;
     }
 
-    public void setPtsBonusUnScoreExactResultatKO(String ptsBonusUnScoreExactResultatKO) {
-        this.ptsBonusUnScoreExactResultatKO = ptsBonusUnScoreExactResultatKO;
+    public void setPtsVainqueurFinal(Integer ptsVainqueurFinal) {
+        this.ptsVainqueurFinal = ptsVainqueurFinal;
     }
 
-    public Date getDateDebutValidite() {
-        return dateDebutValidite;
+    public Boolean isActive() {
+        return isActive;
     }
 
-    public void setDateDebutValidite(Date dateDebutValidite) {
-        this.dateDebutValidite = dateDebutValidite;
+    public void setActive(Boolean active) {
+        isActive = active;
     }
 
-    public Date getDateFinValidite() {
-        return dateFinValidite;
+    public Long getContestId() {
+        return contestId;
     }
 
-    public void setDateFinValidite(Date dateFinValidite) {
-        this.dateFinValidite = dateFinValidite;
+    public void setContestId(Long contestId) {
+        this.contestId = contestId;
     }
 }

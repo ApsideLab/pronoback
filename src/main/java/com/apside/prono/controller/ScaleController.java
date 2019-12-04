@@ -55,8 +55,9 @@ public class ScaleController {
     public ResponseEntity<?> getScale(@PathVariable("id") long id) {
         String message = bundle.getString("get_scale");
         log.debug(message, id);
-        ScaleEntity scaleEntity = scaleService.getScale(id);
-        return ResponseEntity.ok().body(ScaleMapper.INSTANCE.mapScale(scaleEntity));
+
+        Scale scale = scaleService.getScale(id);
+        return ResponseEntity.ok().body(scale);
     }
 
     /**
@@ -68,12 +69,12 @@ public class ScaleController {
      */
     @PostMapping("/scales")
     @CrossOrigin(origins = "http://localhost:4200")
-    public ResponseEntity<?> createScale(@Valid @RequestBody Scale scale) throws URISyntaxException {
+    public ResponseEntity<?> createScale(@Valid @RequestBody Scale scale){
         String message = bundle.getString("post_scale");
         log.debug(message, scale);
-        ScaleEntity scaleEntity = ScaleEntityMapper.INSTANCE.mapScaleEntity(scale);
-        scaleEntity = scaleService.createScale(scaleEntity);
-        return new ResponseEntity<>(ScaleMapper.INSTANCE.mapScale(scaleEntity), HttpStatus.CREATED);
+
+        Scale scaleSave = scaleService.createScale(scale);
+        return new ResponseEntity<>(scaleSave, HttpStatus.CREATED);
     }
 
     /**
@@ -89,8 +90,7 @@ public class ScaleController {
         String message = bundle.getString("put_scale");
         log.debug(message, scale);
 
-        ScaleEntity scaleEntity = ScaleEntityMapper.INSTANCE.mapScaleEntity(scale);
-        scaleEntity = scaleService.update(scaleEntity);
+        ScaleEntity scaleEntity = scaleService.update(scale);
         return new ResponseEntity<>(ScaleMapper.INSTANCE.mapScale(scaleEntity), HttpStatus.ACCEPTED);
     }
 
@@ -104,10 +104,9 @@ public class ScaleController {
     @DeleteMapping("/scales/{id}")
     @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<?> deleteScale(@PathVariable("id") long id) {
-        ScaleEntity scaleEntity = scaleService.getScale(id);
         String message = bundle.getString("delete_scale");
         log.debug(message, id);
         scaleService.delete(id);
-        return new ResponseEntity<>(ScaleMapper.INSTANCE.mapScale(scaleEntity), HttpStatus.ACCEPTED);
+        return ResponseEntity.ok().body(id);
     }
 }

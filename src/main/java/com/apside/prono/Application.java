@@ -42,20 +42,20 @@ public class Application {
                     actorService.createActor(actorEntity);
                 }
             }
-            if (scaleService.getAll().size() == 0) {
-                for (int i = 0; i < 20; i++) {
-                    ScaleEntity scaleEntity = new ScaleEntity();
-                    scaleEntity.setLabel("toto"+i);
-                    scaleEntity.setDateDebutValidite(new Date());
-                    scaleEntity.setDateFinValidite(new Date());
-                    scaleEntity.setPtsBonResultat(1);
-                    scaleEntity.setPtsBonusEcartButs(2);
-                    scaleEntity.setPtsBonusDeuxScoresExacts(3);
-                    scaleEntity.setPtsBonusUnScoreExactResultatOK(4);
-                    scaleEntity.setPtsBonusUnScoreExactResultatKO(5);
-                    scaleService.createScale(scaleEntity);
-                }
-            }
+//            if (scaleService.getAll().size() == 0) {
+//                for (int i = 0; i < 20; i++) {
+//                    ScaleEntity scaleEntity = new ScaleEntity();
+//                    scaleEntity.setLabel("toto"+i);
+//                    scaleEntity.setDateDebutValidite(new Date());
+//                    scaleEntity.setDateFinValidite(new Date());
+//                    scaleEntity.setPtsBonResultat(1);
+//                    scaleEntity.setPtsBonusEcartButs(2);
+//                    scaleEntity.setPtsBonusDeuxScoresExacts(3);
+//                    scaleEntity.setPtsBonusUnScoreExactResultatOK(4);
+//                    scaleEntity.setPtsBonusUnScoreExactResultatKO(5);
+//                    scaleService.createScale(scaleEntity);
+//                }
+//            }
         };
     }
 }
