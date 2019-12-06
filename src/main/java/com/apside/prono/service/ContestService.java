@@ -6,21 +6,22 @@ import com.apside.prono.errors.contest.BadRequestDeleteContestException;
 import com.apside.prono.helpers.TimeFactory;
 import com.apside.prono.mapper.contest.ContestEntityMapper;
 import com.apside.prono.mapper.contest.ContestMapper;
+import com.apside.prono.mapper.scale.ScaleMapper;
 import com.apside.prono.model.ContestEntity;
 import com.apside.prono.model.ScaleEntity;
 import com.apside.prono.modelapi.Contest;
+import com.apside.prono.modelapi.Scale;
 import com.apside.prono.repository.ContestRepository;
+import com.apside.prono.repository.ScaleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.text.html.Option;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
 
 
 @Service
@@ -28,6 +29,9 @@ import java.util.Set;
 public class ContestService {
     @Autowired
     private ContestRepository contestRepository;
+
+    @Autowired
+    private ScaleRepository scaleRepository;
 
     @Autowired
     private TimeFactory timeFactory;
@@ -62,6 +66,18 @@ public class ContestService {
     @Transactional
     public List<Contest> getAll() {
         return ContestMapper.INSTANCE.mapListContests(contestRepository.findAll());
+    }
+
+    @Transactional
+    public List<Scale> getAllScales(long id) {
+        List<Scale> scaleList = ScaleMapper.INSTANCE.mapListContests(scaleRepository.findAll());
+        List<Scale> scalesOfContest = new ArrayList<>();
+        for(int i = 0; i < scaleList.size(); i++) {
+            if (scaleList.get(i).getContestId() == id) {
+                scalesOfContest.add(scaleList.get(i));
+            }
+        }
+        return scalesOfContest;
     }
 
     @Transactional

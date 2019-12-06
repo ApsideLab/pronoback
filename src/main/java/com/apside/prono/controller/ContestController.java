@@ -3,6 +3,7 @@ package com.apside.prono.controller;
 import com.apside.prono.mapper.contest.ContestMapper;
 import com.apside.prono.model.ContestEntity;
 import com.apside.prono.modelapi.Contest;
+import com.apside.prono.modelapi.Scale;
 import com.apside.prono.service.ContestService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,6 +58,18 @@ public class ContestController {
 
         Contest contest = contestService.getContest(id);
         return ResponseEntity.ok().body(contest);
+    }
+
+    /**
+     * GET  /contests/:id/scales : get the scales of the "id" contest.
+     *
+     * @param id the id of the contest to retrieve the scales
+     * @return the ResponseEntity with status 200 (OK) and with body the contest, or with status 404 (Not Found)
+     */
+    @GetMapping("/contests/{id}/scales")
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<Scale> getAllScalesByContest(@Valid @PathVariable("id") long id) {
+        return contestService.getAllScales(id);
     }
 
     /**

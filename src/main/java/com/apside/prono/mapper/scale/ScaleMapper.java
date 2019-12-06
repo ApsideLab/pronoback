@@ -6,6 +6,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 @Mapper
 public interface ScaleMapper {
 
@@ -21,4 +23,6 @@ public interface ScaleMapper {
     @Mapping(target = "active", source="active")
     @Mapping(target = "contestId", source="contest.id")
     Scale mapScale(ScaleEntity scaleEntity);
+
+    public abstract List<Scale> mapListContests(List<ScaleEntity> in);
 }
